@@ -9,7 +9,7 @@ import "./css/style.css";
 
 function App() {
   return (
-    <div class="uk-flex-middle uk-container-expand" uk-grid="true">
+    <div className="uk-flex-middle uk-container-expand" uk-grid="true">
       <SketchHolder />
     </div>
   );

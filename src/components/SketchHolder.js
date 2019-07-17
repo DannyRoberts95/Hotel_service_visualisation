@@ -4,7 +4,7 @@ import Filter from "./Filter.js";
 import * as d3 from "d3";
 
 import data_import from "../data/test_data.csv";
-// import data_import from "./data/hotel_data.csv";
+// import data_import from "../data/hotel_data.csv";
 
 import P5Wrapper from "react-p5-wrapper";
 import sketch from "../p5_code/sketch.js";
@@ -92,7 +92,7 @@ class SketchHolder extends React.Component {
   }
 
   render() {
-    console.log(this.state);
+    // console.log(this.state);
 
     const sketch_data = this.state.json_data
       .filter(
