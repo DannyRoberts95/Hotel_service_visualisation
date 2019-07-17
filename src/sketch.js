@@ -6,7 +6,7 @@ export default function sketch(p) {
   };
 
   p.setup = function() {
-    console.log("P5: " + data_objects);
+    // console.log("P5: " + data_objects);
     p.createCanvas(500, 500);
     p.colorMode(p.HSB, 360, 100, 100, 100);
   };
