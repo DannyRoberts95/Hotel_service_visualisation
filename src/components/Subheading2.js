@@ -2,7 +2,7 @@ import React from "react";
 
 const Subheading = props => {
   return (
-    <p className="uk-h4 uk-text-capitalize uk-margin-small-bottom">
+    <p className="uk-h6 uk-text-capitalize uk-margin-small-bottom">
       {props.content}
     </p>
   );

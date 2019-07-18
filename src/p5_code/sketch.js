@@ -20,23 +20,24 @@ export default function sketch(p) {
 
     bubbles = data_objects.map((item, i) => {
       const positive = item.Positive_Negative === "Positive" ? true : false;
-      const radius = p.map(item.Reviewer_Score, 0, 10, 1, 15);
+      const radius = p.map(item.Reviewer_Score, 0, 10, 2, 6);
       return new Bubble(
-        p.width / 2 + p.randomGaussian() * 150,
-        p.height / 2 + p.randomGaussian() * 150,
+        p.random(100, p.width - 100),
+        p.random(100, p.height - 100),
         positive,
-        radius
+        2.5
       );
     });
   };
 
   p.draw = function() {
+    p.randomSeed(1);
     p.background(10);
 
-    for (let i = 0; i < bubbles.length; i++) {
-      if (p.frameCount % 10 === 0) bubbles[i].update();
-      bubbles[i].render();
-    }
+    // for (let i = 0; i < bubbles.length; i++) {
+    //   bubbles[i].update();
+    //   bubbles[i].render();
+    // }
 
     p.fill(95);
     p.textAlign(p.CENTER, p.CENTER);
@@ -50,8 +51,8 @@ export default function sketch(p) {
     constructor(x, y, positive, radius) {
       this.loc = p.createVector(x, y);
       this.color = positive
-        ? p.color(p.random(100, 180), 100, 90, 50)
-        : p.color(p.random(0, 50), 100, 90, 50);
+        ? p.color(p.random(100, 180), 100, 90, 100)
+        : p.color(p.random(0, 50), 100, 90, 100);
       this.radius = radius;
     }
 
@@ -66,7 +67,7 @@ export default function sketch(p) {
 
     render() {
       p.push();
-      p.strokeWeight(this.radius);
+      p.strokeWeight(this.radius * 2);
       p.stroke(this.color);
       p.point(this.loc.x, this.loc.y);
       p.pop();

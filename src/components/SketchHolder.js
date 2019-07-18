@@ -24,7 +24,9 @@ class SketchHolder extends React.Component {
       tripTypePreference: "All",
       tripTypeValues: [],
       tripType1Preference: "All",
-      tripType1Values: []
+      tripType1Values: [],
+      earliestDate: null,
+      latestDate: null
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -76,6 +78,18 @@ class SketchHolder extends React.Component {
           ...new Set(["All"].concat(tripTypeValues1))
         ];
 
+        //EXTRACT DATES FROM DATA
+        const dates = data.map(item => {
+          return new Date(item.Review_Date);
+        });
+
+        const earliestDate = dates.reduce((pre, cur) => {
+          return Date.parse(pre) > Date.parse(cur) ? cur : pre;
+        });
+        const latestDate = dates.reduce((pre, cur) => {
+          return Date.parse(pre) < Date.parse(cur) ? cur : pre;
+        });
+
         this.setState({
           json_data: data_response,
           dataLoaded: true,
@@ -83,7 +97,9 @@ class SketchHolder extends React.Component {
           categoryValues: dedupedCategoryValues,
           roomTypeValues: dedupedRoomTypeValues,
           tripTypeValues: dedupedTripTypeValues,
-          tripType1Values: dedupedTripType1Values
+          tripType1Values: dedupedTripType1Values,
+          earliestDate: earliestDate,
+          latestDate: latestDate
         });
       })
       .catch(err => {
@@ -92,7 +108,7 @@ class SketchHolder extends React.Component {
   }
 
   render() {
-    // console.log(this.state);
+    console.log(this.state);
 
     const sketch_data = this.state.json_data
       .filter(
@@ -124,6 +140,14 @@ class SketchHolder extends React.Component {
         item =>
           item.type1 === this.state.tripType1Preference ||
           this.state.tripType1Preference === "All"
+      )
+      .filter(
+        //FILTER DATA BY DATE
+        (item: any) =>
+          new Date(item.Review_Date).getTime() >=
+            new Date(this.state.earliestDate).getTime() &&
+          new Date(item.Review_Date).getTime() <=
+            new Date(this.state.latestDate).getTime()
       );
 
     return (
@@ -156,6 +180,8 @@ class SketchHolder extends React.Component {
             tripTypeValues={this.state.tripTypeValues}
             tripType1Preference={this.state.tripType1Preference}
             tripType1Values={this.state.tripType1Values}
+            earliestDate={this.state.earliestDate}
+            latestDate={this.state.latestDate}
           />
         </div>
 
@@ -169,8 +195,10 @@ class SketchHolder extends React.Component {
     const value = target.value;
     const name = target.name;
 
-    console.log(`${name} is now set to ${value}`);
-    this.setState({ [name]: value });
+    if (value) {
+      console.log(`${name} is now set to ${value}`);
+      this.setState({ [name]: value });
+    } else console.log(`Null value passed: ${value}`);
   }
 }
 

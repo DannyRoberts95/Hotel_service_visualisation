@@ -17,7 +17,7 @@ class DropDown extends Component {
         <div className="uk-form-controls">
           <select
             id="form-horizontal-select"
-            className="uk-select"
+            className="uk-select uk-form-small"
             value={this.props.selected}
             name={this.props.name}
             onChange={this.props.handleChange}

@@ -1,6 +1,7 @@
 import React from "react";
 import DropDown from "./Dropdown.js";
 import Subheading from "./Subheading.js";
+import Subheading2 from "./Subheading2.js";
 import Heading from "./Heading.js";
 
 class Filter extends React.Component {
@@ -54,6 +55,36 @@ class Filter extends React.Component {
             handleChange={this.props.handleChange}
             selected={this.props.tripType1Preference}
           />
+
+          <div className="uk-margin">
+            <label className="uk-form-label" htmlFor="form-s-date">
+              <Subheading2 content="Earliest Date" />
+            </label>
+            <input
+              className="uk-input uk-form-small"
+              id="form-s-date"
+              name="earliestDate"
+              value={new Date(this.props.earliestDate)
+                .toJSON()
+                .substring(0, 10)}
+              type="date"
+              onChange={this.props.handleChange}
+            />
+          </div>
+
+          <div className="uk-margin">
+            <label className="uk-form-label" htmlFor="form-s-date">
+              <Subheading2 content="Latest Date" />
+            </label>
+            <input
+              className="uk-input uk-form-small"
+              id="form-s-date"
+              name="latestDate"
+              value={new Date(this.props.latestDate).toJSON().substring(0, 10)}
+              type="date"
+              onChange={this.props.handleChange}
+            />
+          </div>
         </form>
         <p className="uk-text-center">
           <button
