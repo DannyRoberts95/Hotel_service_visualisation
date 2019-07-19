@@ -10,7 +10,7 @@ class DropDown extends Component {
       );
     });
     return (
-      <div className="uk-margin">
+      <div className={this.props.width + " uk-margin"}>
         <label className="uk-form-label" forhtml="form-horizontal-select">
           <Subheading2 content={this.props.label} />
         </label>

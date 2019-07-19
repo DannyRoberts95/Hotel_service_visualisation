@@ -1,5 +1,6 @@
 import React from "react";
 import Filter from "./Filter.js";
+import ReviewInfo from "./ReviewInfo.js";
 
 import * as d3 from "d3";
 
@@ -8,6 +9,7 @@ import data_import from "../data/test_data.csv";
 
 import P5Wrapper from "react-p5-wrapper";
 import sketch from "../p5_code/sketch.js";
+import { selectedReviewId } from "../p5_code/sketch.js";
 
 class SketchHolder extends React.Component {
   constructor(props) {
@@ -26,9 +28,13 @@ class SketchHolder extends React.Component {
       tripType1Preference: "All",
       tripType1Values: [],
       earliestDate: null,
-      latestDate: null
+      latestDate: null,
+      reviewScoreMin: 0,
+      reviewScoreMax: 10,
+      selectedReview: {}
     };
     this.handleChange = this.handleChange.bind(this);
+    this.receiveId = this.receiveId.bind(this);
   }
 
   componentDidMount() {
@@ -148,6 +154,12 @@ class SketchHolder extends React.Component {
             new Date(this.state.earliestDate).getTime() &&
           new Date(item.Review_Date).getTime() <=
             new Date(this.state.latestDate).getTime()
+      )
+      .filter(
+        //FILTER DATA BY SCORE
+        item =>
+          parseInt(item.Reviewer_Score) >= this.state.reviewScoreMin &&
+          parseInt(item.Reviewer_Score) <= this.state.reviewScoreMax
       );
 
     return (
@@ -160,7 +172,6 @@ class SketchHolder extends React.Component {
         >
           Filter Options
         </button>
-
         <div
           id="offcanvas-usage"
           uk-offcanvas="true"
@@ -182,19 +193,29 @@ class SketchHolder extends React.Component {
             tripType1Values={this.state.tripType1Values}
             earliestDate={this.state.earliestDate}
             latestDate={this.state.latestDate}
+            reviewScoreMin={this.state.reviewScoreMin}
+            reviewScoreMax={this.state.reviewScoreMax}
           />
         </div>
-
-        <P5Wrapper sketch={sketch} data={sketch_data} />
+        <P5Wrapper sketch={sketch} data={sketch_data} sendId={this.receiveId} />
+        <ReviewInfo review={this.state.selectedReview[0]} />
       </div>
     );
+  }
+
+  //METHOD TO BE PASSED P5 SKETCH ALLOWING SELECTED REVIEWS TO BE RECIEVED BY REACT
+  receiveId(id) {
+    //FIND AND STORE THE SELECTED REVIEW
+    const selectedReview = this.state.json_data.filter(
+      item => item.entryID === selectedReviewId
+    );
+    this.setState({ selectedReview });
   }
 
   handleChange(event) {
     const target = event.target;
     const value = target.value;
     const name = target.name;
-
     if (value) {
       console.log(`${name} is now set to ${value}`);
       this.setState({ [name]: value });
