@@ -1,6 +1,6 @@
 import React from "react";
 import DropDown from "./Dropdown.js";
-// import Subheading from "./Subheading.js";
+import Subheading from "./Subheading.js";
 import Subheading2 from "./Subheading2.js";
 // import Heading from "./Heading.js";
 
@@ -13,10 +13,10 @@ class Filter extends React.Component {
     // console.log(this.props);
 
     return (
-      <div className="uk-offcanvas-bar">
-        <h2 className="uk-modal-title">Filter Data</h2>
+      <div className="uk-offcanvas-bar ">
+        <Subheading content="Filter Reviews" />
         <form
-          className="=uk-form-horizontal uk-form-small uk-margin-large uk-grid-small"
+          className="=uk-form-horizontal uk-form-small uk-form-expand uk-grid-small"
           uk-grid="true"
         >
           <DropDown

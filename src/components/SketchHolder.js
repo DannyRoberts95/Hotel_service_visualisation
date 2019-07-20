@@ -1,6 +1,7 @@
 import React from "react";
 import Filter from "./Filter.js";
 import ReviewInfo from "./ReviewInfo.js";
+// import ReviewInfo2 from "./ReviewInf2.js";
 
 import * as d3 from "d3";
 
@@ -8,8 +9,8 @@ import data_import from "../data/test_data.csv";
 // import data_import from "../data/hotel_data.csv";
 
 import P5Wrapper from "react-p5-wrapper";
-import sketch from "../p5_code/sketch.js";
-import { selectedReviewId } from "../p5_code/sketch.js";
+
+import Bubble_Map_Plot from "../p5_code/Bubble_Map_Plot.js";
 
 class SketchHolder extends React.Component {
   constructor(props) {
@@ -34,7 +35,6 @@ class SketchHolder extends React.Component {
       selectedReview: {}
     };
     this.handleChange = this.handleChange.bind(this);
-    this.receiveId = this.receiveId.bind(this);
   }
 
   componentDidMount() {
@@ -114,7 +114,7 @@ class SketchHolder extends React.Component {
   }
 
   render() {
-    console.log(this.state);
+    // console.log(this.state);
 
     const sketch_data = this.state.json_data
       .filter(
@@ -166,18 +166,18 @@ class SketchHolder extends React.Component {
       <div>
         <button
           id="toggleFilter"
-          className="uk-button uk-button-secondary uk-button-large uk-margin-medium-left uk-margin-medium-top"
+          className="uk-button uk-button-secondary uk-button-small uk-margin-medium-left uk-margin-medium-top"
           type="button"
           uk-toggle="target: #offcanvas-usage"
         >
-          Filter Options
+          Options
         </button>
         <div
           id="offcanvas-usage"
+          className="uk-position-top-right"
           uk-offcanvas="true"
           bg-close="true"
           esc-close="true"
-          className="uk-column-1-3"
         >
           <Filter
             handleChange={this.handleChange}
@@ -197,20 +197,27 @@ class SketchHolder extends React.Component {
             reviewScoreMax={this.state.reviewScoreMax}
           />
         </div>
-        <P5Wrapper sketch={sketch} data={sketch_data} sendId={this.receiveId} />
+
+        <P5Wrapper
+          sketch={Bubble_Map_Plot}
+          data={sketch_data}
+          sentimentValues={this.state.sentimentValues}
+          categoryValues={this.state.categoryValues}
+        />
+
         <ReviewInfo review={this.state.selectedReview[0]} />
       </div>
     );
   }
 
   //METHOD TO BE PASSED P5 SKETCH ALLOWING SELECTED REVIEWS TO BE RECIEVED BY REACT
-  receiveId(id) {
-    //FIND AND STORE THE SELECTED REVIEW
-    const selectedReview = this.state.json_data.filter(
-      item => item.entryID === selectedReviewId
-    );
-    this.setState({ selectedReview });
-  }
+  // receiveId(id) {
+  //   //FIND AND STORE THE SELECTED REVIEW
+  //   const selectedReview = this.state.json_data.filter(
+  //     item => item.entryID === selectedReviewId
+  //   );
+  //   this.setState({ selectedReview });
+  // }
 
   handleChange(event) {
     const target = event.target;

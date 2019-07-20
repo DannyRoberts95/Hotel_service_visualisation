@@ -2,14 +2,20 @@ export let selectedReviewId = null;
 export default p => {
   let data_objects;
   let bubbles;
-
+  let earliestDate, latestDate;
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   //HANDLES THE ARRIVAL OF NEW PROPS INTO THE SKETCH FROM REACT
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   p.myCustomRedrawAccordingToNewPropsHandler = function(props) {
     props.data ? (data_objects = props.data) : (data_objects = {});
     props.sendId ? (this.sendId = props.sendId) : (this.sendId = null);
-    // p.setup();
+    props.earliestDate
+      ? (this.earliestDate = props.earliestDate)
+      : (this.earliestDate = null);
+    props.latestDate
+      ? (this.latestDate = props.latestDate)
+      : (this.latestDate = null);
+    p.setup();
   };
 
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -24,9 +30,30 @@ export default p => {
   //MOUSE CLICK FUNCTIONALITY
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   p.mouseClicked = function() {
-    const b = bubbles[p.floor(p.random(3, 10))];
-    selectedReviewId = b.reviewId;
-    this.sendId(selectedReviewId);
+    for (let i = 0; i < bubbles.length; i++) {
+      if (
+        p.dist(p.mouseX, p.mouseY, bubbles[i].loc.x, bubbles[i].loc.y) <
+        bubbles[i].radius
+      ) {
+        const b = bubbles[i];
+        selectedReviewId = b.reviewId;
+        this.sendId(selectedReviewId);
+        break;
+      } else selectedReviewId = null;
+    }
+  };
+
+  p.preload = function() {
+    // bubbles = data_objects.map((item, i) => {
+    //   const positive = item.Positive_Negative === "Positive" ? true : false;
+    //   return new Bubble(
+    //     item.entryID,
+    //     p.random(350, p.width - 350),
+    //     p.random(100, p.height - 100),
+    //     positive,
+    //     5
+    //   );
+    // });
   };
 
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -35,15 +62,24 @@ export default p => {
   p.setup = function() {
     p.createCanvas(p.windowWidth, p.windowHeight);
     p.colorMode(p.HSB, 360, 100, 100, 100);
+    p.cursor(p.CROSS);
+    p.randomSeed(10);
+
     bubbles = data_objects.map((item, i) => {
       const positive = item.Positive_Negative === "Positive" ? true : false;
-      return new Bubble(
-        item.entryID,
-        p.random(100, p.width - 100),
-        p.random(100, p.height - 100),
-        positive,
-        2.5
+      const x = p.map(
+        Date.parse(item.Review_Date),
+        Date.parse(this.earliestDate),
+        Date.parse(this.latestDate),
+        50,
+        p.width - 50
       );
+      const y = p.map(item.Reviewer_Score, 0, 10, p.height - 50, 50);
+
+      const noise = 10;
+      const noiseX = p.random(-noise, noise);
+      const noiseY = p.random(-noise, noise);
+      return new Bubble(item.entryID, x + noiseX, y + noiseY, positive, 2);
     });
   };
 
@@ -51,19 +87,12 @@ export default p => {
   //SKETCH DRAW
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   p.draw = function() {
-    // p.randomSeed(10);
     p.background(10);
 
     for (let i = 0; i < bubbles.length; i++) {
       // bubbles[i].update();
       bubbles[i].render();
     }
-    p.fill(100);
-    p.textAlign(p.CENTER, p.CENTER);
-    p.textSize(100);
-    p.text(data_objects.length, p.width / 2, 0 + 100);
-    p.textSize(25);
-    p.text(p.int(p.frameRate()), p.width - 100, 0 + 100);
   };
 
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -89,8 +118,9 @@ export default p => {
     }
 
     render() {
-      p.noStroke();
-      p.fill(this.color);
+      p.stroke(this.color);
+      p.strokeWeight(0.5);
+      p.noFill();
       p.ellipse(this.loc.x, this.loc.y, this.radius * 2, this.radius * 2);
     }
   }
