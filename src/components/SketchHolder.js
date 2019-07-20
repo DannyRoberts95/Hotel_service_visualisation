@@ -30,6 +30,7 @@ class SketchHolder extends React.Component {
       tripType1Values: [],
       earliestDate: null,
       latestDate: null,
+      reviewerScores: [],
       reviewScoreMin: 0,
       reviewScoreMax: 10,
       selectedReview: {}
@@ -96,6 +97,8 @@ class SketchHolder extends React.Component {
           return Date.parse(pre) < Date.parse(cur) ? cur : pre;
         });
 
+        const reviewerScores = data.map(item => item.Reviewer_Score);
+
         this.setState({
           json_data: data_response,
           dataLoaded: true,
@@ -105,7 +108,8 @@ class SketchHolder extends React.Component {
           tripTypeValues: dedupedTripTypeValues,
           tripType1Values: dedupedTripType1Values,
           earliestDate: earliestDate,
-          latestDate: latestDate
+          latestDate: latestDate,
+          reviewerScores: reviewerScores
         });
       })
       .catch(err => {
@@ -114,7 +118,7 @@ class SketchHolder extends React.Component {
   }
 
   render() {
-    // console.log(this.state);
+    console.log(this.state);
 
     const sketch_data = this.state.json_data
       .filter(
@@ -142,7 +146,7 @@ class SketchHolder extends React.Component {
           this.state.tripTypePreference === "All"
       )
       .filter(
-        //FILTER DATA BY TRIP TYPE
+        //FILTER DATA BY TRIP TYPE1
         item =>
           item.type1 === this.state.tripType1Preference ||
           this.state.tripType1Preference === "All"
@@ -174,8 +178,7 @@ class SketchHolder extends React.Component {
         </button>
         <div
           id="offcanvas-usage"
-          className="uk-position-top-right"
-          uk-offcanvas="true"
+          uk-offcanvas="mode: push"
           bg-close="true"
           esc-close="true"
         >
@@ -203,6 +206,10 @@ class SketchHolder extends React.Component {
           data={sketch_data}
           sentimentValues={this.state.sentimentValues}
           categoryValues={this.state.categoryValues}
+          reviewerScores={this.state.reviewerScores}
+          roomTypeValues={this.state.roomTypeValues}
+          tripTypeValues={this.state.tripTypeValues}
+          tripType1Values={this.state.tripType1Values}
         />
 
         <ReviewInfo review={this.state.selectedReview[0]} />

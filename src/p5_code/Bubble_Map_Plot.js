@@ -1,7 +1,12 @@
 export let selectedReviewId = null;
 export default p => {
   let data_objects;
-  let seniment_bubble_map, category_bubble_map, roomType_bubble_map;
+  let seniment_bubble_map,
+    category_bubble_map,
+    roomType_bubble_map,
+    reviewerScore_bubble_map,
+    type1_bubble_map,
+    type_bubble_map;
 
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   //HANDLES THE ARRIVAL OF NEW PROPS INTO THE SKETCH FROM REACT
@@ -18,12 +23,21 @@ export default p => {
   p.processData = function(data) {
     const sentiment_data = data.map(item => item.Positive_Negative);
     const categroy_data = data.map(item => item.Category);
+    const reviewerScore_data = data.map(item =>
+      p.floor(item.Reviewer_Score).toString()
+    );
     const roomType_data = data.map(item => item.roomType);
+    const type_data = data.map(item => item.type);
+    const type1_data = data.map(item => item.type1);
     data_objects = {
       sentiment_data: sentiment_data,
       categroy_data: categroy_data,
-      roomType_data: roomType_data
+      reviewerScore_data: reviewerScore_data,
+      roomType_data: roomType_data,
+      type_data: type_data,
+      type1_data: type1_data
     };
+
     console.log(data_objects);
   };
 
@@ -71,6 +85,27 @@ export default p => {
       mapSize,
       data_objects.roomType_data
     );
+    reviewerScore_bubble_map = new Bubble_map(
+      25,
+      450,
+      mapSize,
+      mapSize,
+      data_objects.reviewerScore_data
+    );
+    type_bubble_map = new Bubble_map(
+      450,
+      450,
+      mapSize,
+      mapSize,
+      data_objects.type_data
+    );
+    type1_bubble_map = new Bubble_map(
+      875,
+      450,
+      mapSize,
+      mapSize,
+      data_objects.type1_data
+    );
   };
 
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -81,6 +116,9 @@ export default p => {
     seniment_bubble_map.run();
     category_bubble_map.run();
     roomType_bubble_map.run();
+    reviewerScore_bubble_map.run();
+    type_bubble_map.run();
+    type1_bubble_map.run();
   };
 
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -105,9 +143,8 @@ export default p => {
       p.push();
       p.translate(this.x, this.y);
       p.noFill();
-      p.noFill();
       p.stroke(100);
-      p.strokeWeight(2);
+      p.strokeWeight(1);
       p.rect(0, 0, this.w, this.h);
       p.pop();
       for (let i = 0; i < this.bubbles.length; i++) {
@@ -231,7 +268,6 @@ export default p => {
       p.textAlign(p.CENTER, p.CENTER);
       p.text(word, 0, 0);
       p.textFont("Helvetica", fontSize / 2);
-      p.text(this.wordPOSTag, 0, p.textAscent() * 1.5);
       p.noFill();
       p.stroke(100);
       p.strokeWeight(2);
