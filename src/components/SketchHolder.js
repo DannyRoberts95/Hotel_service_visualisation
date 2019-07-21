@@ -5,8 +5,8 @@ import ReviewInfo from "./ReviewInfo.js";
 
 import * as d3 from "d3";
 
-import data_import from "../data/test_data.csv";
-// import data_import from "../data/hotel_data.csv";
+// import data_import from "../data/test_data.csv";
+import data_import from "../data/hotel_data.csv";
 
 import P5Wrapper from "react-p5-wrapper";
 
