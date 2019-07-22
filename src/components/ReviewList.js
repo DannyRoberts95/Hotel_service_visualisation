@@ -15,7 +15,7 @@ class ReviewInfo extends React.Component {
     let reviewList = list.map((item, i) => {
       return i < this.state.listEntries ? (
         <li key={i}>
-          <div className="uk-grid-collapse" uk-grid="true" />
+          <div className="uk-grid-collapse " uk-grid="true" />
 
           <div className="uk-width-expand ">
             <button
@@ -35,6 +35,7 @@ class ReviewInfo extends React.Component {
         className="uk-width-1-2 uk-height-1-1 uk-panel"
         uk-overflow-auto="true"
       >
+        <p>Displaying {this.state.listEntries} entries.</p>
         <ul className="uk-list uk-list-striped ">{reviewList}</ul>
         <button
           class="uk-button uk-button-text"

@@ -101,58 +101,58 @@ export default p => {
         "The percentge of selected reviews that pertain to each category."
       )
     );
-    // bubble_maps.push(
-    //   new Bubble_map(
-    //     mapSizeX * 2 + gutterX * 3,
-    //     gutterY / 2,
-    //     mapSizeX,
-    //     mapSizeY,
-    //     data_objects.roomType_data,
-    //     p.color(75, 50, 40),
-    //     p.color(150, 100, 80),
-    //     "Type of Room",
-    //     "The percentge of selected reviews that pertain to each type of room."
-    //   )
-    // );
-    // bubble_maps.push(
-    //   new Bubble_map(
-    //     gutterX,
-    //     mapSizeY + gutterY * 2,
-    //     mapSizeX,
-    //     mapSizeY,
-    //     data_objects.reviewerScore_data,
-    //     p.color(180, 100, 80),
-    //     p.color(150, 50, 40),
-    //     "Review Score",
-    //     "The percentge of selected reviews that recieved each possible score out of 10."
-    //   )
-    // );
-    // bubble_maps.push(
-    //   new Bubble_map(
-    //     mapSizeX + gutterX * 2,
-    //     mapSizeY + gutterY * 2,
-    //     mapSizeX,
-    //     mapSizeY,
-    //     data_objects.type_data,
-    //     p.color(200, 75, 50),
-    //     p.color(250, 85, 100),
-    //     "Trip Type",
-    //     "The percentage of selected reviews that pertain to each purpose for the reviwers trip."
-    //   )
-    // );
-    // bubble_maps.push(
-    //   new Bubble_map(
-    //     mapSizeX * 2 + gutterX * 3,
-    //     mapSizeY + gutterY * 2,
-    //     mapSizeX,
-    //     mapSizeY,
-    //     data_objects.type1_data,
-    //     p.color(290, 100, 50),
-    //     p.color(340, 100, 100),
-    //     "Group Type",
-    //     "The percentage of selected reviews that pertain to the type of group the reviewer was a part of."
-    //   )
-    // );
+    bubble_maps.push(
+      new Bubble_map(
+        mapSizeX * 2 + gutterX * 3,
+        gutterY / 2,
+        mapSizeX,
+        mapSizeY,
+        data_objects.roomType_data,
+        p.color(75, 50, 40),
+        p.color(150, 100, 80),
+        "Type of Room",
+        "The percentge of selected reviews that pertain to each type of room."
+      )
+    );
+    bubble_maps.push(
+      new Bubble_map(
+        gutterX,
+        mapSizeY + gutterY * 2,
+        mapSizeX,
+        mapSizeY,
+        data_objects.reviewerScore_data,
+        p.color(180, 100, 80),
+        p.color(150, 50, 40),
+        "Review Score",
+        "The percentge of selected reviews that recieved each possible score out of 10."
+      )
+    );
+    bubble_maps.push(
+      new Bubble_map(
+        mapSizeX + gutterX * 2,
+        mapSizeY + gutterY * 2,
+        mapSizeX,
+        mapSizeY,
+        data_objects.type_data,
+        p.color(200, 75, 50),
+        p.color(250, 85, 100),
+        "Trip Type",
+        "The percentage of selected reviews that pertain to each purpose for the reviwers trip."
+      )
+    );
+    bubble_maps.push(
+      new Bubble_map(
+        mapSizeX * 2 + gutterX * 3,
+        mapSizeY + gutterY * 2,
+        mapSizeX,
+        mapSizeY,
+        data_objects.type1_data,
+        p.color(290, 100, 50),
+        p.color(340, 100, 100),
+        "Group Type",
+        "The percentage of selected reviews that pertain to the type of group the reviewer was a part of."
+      )
+    );
   };
 
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -179,7 +179,7 @@ export default p => {
       this.y = y;
       this.w = w;
       this.h = h;
-      this.gutter = 5;
+      this.gutter = 3;
       this.title = title;
       this.description = description;
       this.data = data;
@@ -388,8 +388,8 @@ export default p => {
         p.textAlign(p.CENTER, p.CENTER);
         p.noStroke();
         p.fill(100, a);
-        p.text(word, 0, 0);
-        p.text(percent, 0, 10 * 1.5);
+        p.text(word, 0, -7);
+        p.text(percent, 0, 7);
       } else {
         p.fill(
           p.hue(this.color),
@@ -413,9 +413,9 @@ export default p => {
         p.textAlign(p.CENTER, p.CENTER);
         p.noStroke();
         p.fill(100, a);
-        p.text(word, 0, 0);
+        p.text(word, 0, -7);
         p.textFont("Helvetica", 10);
-        p.text("REVIEWS", 0, 10 * 1.5);
+        p.text("REVIEWS", 0, 7);
       }
 
       p.pop();

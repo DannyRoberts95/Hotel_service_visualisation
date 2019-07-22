@@ -25,7 +25,7 @@ export default class DataInfoModal extends React.Component {
     return (
       <div id="modal-info" uk-modal="true">
         <div class="uk-modal-dialog uk-modal-body uk-light uk-background-secondary rounded">
-          <div class="uk-modal-header uk-background-secondary">
+          <div class="uk-background-secondary">
             <Heading content="Review Data" />
             <p className="uk-text-justify uk-margin-bottom-small">
               <b>{this.props.reviewList.length}</b> reviews match the current
@@ -38,7 +38,7 @@ export default class DataInfoModal extends React.Component {
             </p>
           </div>
 
-          <div className="uk-modal-body uk-grid-medium " uk-grid="true">
+          <div className="uk-modal-body uk-grid-collapse " uk-grid="true">
             <ReviewInfo review={this.state.selectedReview} />
             <ReviewList
               reviewList={this.props.reviewList}

@@ -12,10 +12,9 @@ class FilterModal extends React.Component {
           class="uk-modal-dialog uk-modal-body uk-light uk-background-secondary uk-height-1-1 rounded"
           uk-overflow-auto="true"
         >
-          <div class="uk-modal-header uk-background-secondary">
+          <div class=" uk-background-secondary">
             <Heading content="Filter Reviews" />
-            <p>
-              {" "}
+            <p className="uk-text-justify">
               The options below may be used to apply filters to the data. These
               filters allow specific subsets of the data to be isolated and
               examined.
@@ -34,7 +33,6 @@ class FilterModal extends React.Component {
                 selected={this.props.sentimentPreference}
                 width="uk-width-1-1"
               />
-
               <div className=" uk-width-1-1">
                 <label
                   className="uk-form-label uk-margin-right-small"
@@ -55,7 +53,6 @@ class FilterModal extends React.Component {
                   />
                 </div>
               </div>
-
               <div className=" uk-width-1-1">
                 <label
                   className="uk-form-label uk-margin-right-small"
@@ -75,9 +72,7 @@ class FilterModal extends React.Component {
                     onChange={this.props.handleChange}
                   />
                 </div>
-                <hr />
               </div>
-
               <DropDown
                 label="Minimum Review Score"
                 options={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
@@ -86,7 +81,6 @@ class FilterModal extends React.Component {
                 selected={this.props.reviewScoreMin}
                 width="uk-width-1-1"
               />
-
               <DropDown
                 label="Maximum Review Score"
                 options={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
@@ -104,7 +98,6 @@ class FilterModal extends React.Component {
                 selected={this.props.categoryPreference}
                 width="uk-width-1-1"
               />
-
               <DropDown
                 label="Reviewer Room Type"
                 options={this.props.roomTypeValues}
@@ -113,7 +106,6 @@ class FilterModal extends React.Component {
                 selected={this.props.roomTypePreference}
                 width="uk-width-1-1"
               />
-
               <DropDown
                 label="Reviewer Trip Type"
                 options={this.props.tripTypeValues}
@@ -122,7 +114,6 @@ class FilterModal extends React.Component {
                 selected={this.props.tripTypePreference}
                 width="uk-width-1-1"
               />
-
               <DropDown
                 label="Reviewer Group Type"
                 options={this.props.tripType1Values}

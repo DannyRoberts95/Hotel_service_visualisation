@@ -25,7 +25,6 @@ class DropDown extends Component {
             {options}
           </select>
         </div>
-        <hr />
       </div>
     );
   }
