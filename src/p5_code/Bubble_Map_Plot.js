@@ -29,8 +29,8 @@ export default p => {
         return "facilities";
       }
     });
-    const reviewerScore_data = data.map(item =>
-      p.floor(item.Reviewer_Score).toString()
+    const reviewerScore_data = data.map(
+      item => p.floor(item.Reviewer_Score).toString() + " / 10"
     );
     const roomType_data = data.map(item => item.roomType);
     const type_data = data.map(item => item.type);
@@ -43,8 +43,6 @@ export default p => {
       type_data: type_data,
       type1_data: type1_data
     };
-
-    console.log(data_objects);
   };
 
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -66,92 +64,95 @@ export default p => {
   p.setup = function() {
     p.createCanvas(p.windowWidth, p.windowHeight);
     p.colorMode(p.HSB, 360, 100, 100, 100);
+    p.angleMode(p.DEGREES);
     p.cursor(p.CROSS);
     p.randomSeed(2);
     p.smooth();
 
-    const gutter = 100;
-    const mapSize = (p.height - gutter * 3) / 2;
+    const mapSizeX = 400;
+    const mapSizeY = 275;
+    const gutterX = (p.width - mapSizeX * 3) / 4;
+    const gutterY = (p.height - mapSizeY * 2) / 3;
 
     bubble_maps = [];
     bubble_maps.push(
       new Bubble_map(
-        gutter,
-        gutter,
-        mapSize,
-        mapSize,
+        gutterX,
+        gutterY / 2,
+        mapSizeX,
+        mapSizeY,
         data_objects.sentiment_data,
         p.color(15, 0, 25),
-        p.color(15, 25, 100),
+        p.color(15, 25, 90),
         "Sentiment",
         "The percentage of selected reviews who's senitment was labled as negative or positve."
       )
     );
     bubble_maps.push(
       new Bubble_map(
-        mapSize + gutter * 2,
-        gutter,
-        mapSize,
-        mapSize,
+        mapSizeX + gutterX * 2,
+        gutterY / 2,
+        mapSizeX,
+        mapSizeY,
         data_objects.categroy_data,
-        p.color(50, 100, 75),
-        p.color(20, 100, 80),
+        p.color(50, 80, 75),
+        p.color(25, 100, 100),
         "Review Category",
         "The percentge of selected reviews that pertain to each category."
       )
     );
-    bubble_maps.push(
-      new Bubble_map(
-        mapSize * 2 + gutter * 3,
-        gutter,
-        mapSize,
-        mapSize,
-        data_objects.roomType_data,
-        p.color(75, 50, 75),
-        p.color(125, 100, 100),
-        "Room Type",
-        "The percentge of selected reviews that pertain to each type of room."
-      )
-    );
-    bubble_maps.push(
-      new Bubble_map(
-        gutter,
-        mapSize + gutter * 2,
-        mapSize,
-        mapSize,
-        data_objects.reviewerScore_data,
-        p.color(150, 50, 50),
-        p.color(180, 100, 100),
-        "Review Score",
-        "The percentge of selected reviews that recieved each possible score out of 10."
-      )
-    );
-    bubble_maps.push(
-      new Bubble_map(
-        mapSize + gutter * 2,
-        mapSize + gutter * 2,
-        mapSize,
-        mapSize,
-        data_objects.type_data,
-        p.color(200, 50, 50),
-        p.color(250, 100, 100),
-        "Trip Purpose",
-        "The percentage of selected reviews that pertain to each purpose for the reviwers trip."
-      )
-    );
-    bubble_maps.push(
-      new Bubble_map(
-        mapSize * 2 + gutter * 3,
-        mapSize + gutter * 2,
-        mapSize,
-        mapSize,
-        data_objects.type1_data,
-        p.color(290, 100, 50),
-        p.color(340, 100, 100),
-        "Group Type",
-        "The percentage of selected reviews that pertain to the type of group the reviewer was a part of."
-      )
-    );
+    // bubble_maps.push(
+    //   new Bubble_map(
+    //     mapSizeX * 2 + gutterX * 3,
+    //     gutterY / 2,
+    //     mapSizeX,
+    //     mapSizeY,
+    //     data_objects.roomType_data,
+    //     p.color(75, 50, 40),
+    //     p.color(150, 100, 80),
+    //     "Type of Room",
+    //     "The percentge of selected reviews that pertain to each type of room."
+    //   )
+    // );
+    // bubble_maps.push(
+    //   new Bubble_map(
+    //     gutterX,
+    //     mapSizeY + gutterY * 2,
+    //     mapSizeX,
+    //     mapSizeY,
+    //     data_objects.reviewerScore_data,
+    //     p.color(180, 100, 80),
+    //     p.color(150, 50, 40),
+    //     "Review Score",
+    //     "The percentge of selected reviews that recieved each possible score out of 10."
+    //   )
+    // );
+    // bubble_maps.push(
+    //   new Bubble_map(
+    //     mapSizeX + gutterX * 2,
+    //     mapSizeY + gutterY * 2,
+    //     mapSizeX,
+    //     mapSizeY,
+    //     data_objects.type_data,
+    //     p.color(200, 75, 50),
+    //     p.color(250, 85, 100),
+    //     "Trip Type",
+    //     "The percentage of selected reviews that pertain to each purpose for the reviwers trip."
+    //   )
+    // );
+    // bubble_maps.push(
+    //   new Bubble_map(
+    //     mapSizeX * 2 + gutterX * 3,
+    //     mapSizeY + gutterY * 2,
+    //     mapSizeX,
+    //     mapSizeY,
+    //     data_objects.type1_data,
+    //     p.color(290, 100, 50),
+    //     p.color(340, 100, 100),
+    //     "Group Type",
+    //     "The percentage of selected reviews that pertain to the type of group the reviewer was a part of."
+    //   )
+    // );
   };
 
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -159,10 +160,14 @@ export default p => {
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   p.draw = function() {
     p.background(15);
+
+    p.push();
+    p.translate(0, 22);
     for (var i = 0; i < bubble_maps.length; i++) {
       let item = bubble_maps[i];
       item.run();
     }
+    p.pop();
   };
 
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -174,7 +179,7 @@ export default p => {
       this.y = y;
       this.w = w;
       this.h = h;
-      this.gutter = 2;
+      this.gutter = 5;
       this.title = title;
       this.description = description;
       this.data = data;
@@ -186,24 +191,27 @@ export default p => {
       this.bubbles = [];
 
       this.calculateBubbleData();
+      console.log("Bubble Data Calculated");
       this.calculateBubbleLocations();
+      console.log("Bubble locations Calculated");
     }
 
     run() {
       p.push();
-      p.translate(this.x, this.y - 25);
-      // p.noFill();
-      // p.stroke(100);
-      // p.strokeWeight(1);
-      // p.rect(0, 0, this.w, this.h);
+      p.translate(this.x, this.y);
+
+      p.noFill();
+      p.stroke(100);
+      p.strokeWeight(1);
+      p.line(0, this.h, this.w, this.h);
 
       p.fill(100);
       p.noStroke();
       p.textAlign(p.LEFT);
-      p.textFont("Helvetica", 18);
-      p.text(this.title, 0, 20);
+      p.textFont("Helvetica", 20);
+      p.text(this.title, 0, -24);
       p.textFont("Helvetica", 12);
-      p.text(this.description, 0, this.h + 50, this.w);
+      p.text(this.description, 0, this.h + 18, this.w * 0.66);
 
       p.pop();
       for (let i = 0; i < this.bubbles.length; i++) {
@@ -261,6 +269,7 @@ export default p => {
           y: y,
           r: r,
           percentage: Math.round(percentSize * 100),
+          count: valueCount[i],
           color: interCol,
           data: item
         };
@@ -272,25 +281,30 @@ export default p => {
       for (let i = 0; i < this.bubbleData.length; i += 0) {
         let item = this.bubbleData[i];
         let r = item.r;
-        let rx = p.random(this.x + r, this.w + this.x - r);
-        let ry = p.random(this.y + r, this.h + this.y - r);
 
-        rx = p.constrain(
-          rx,
-          this.x + this.gutter + r,
+        let rx = p.random(
+          this.x + r + this.gutter,
           this.w + this.x - r - this.gutter
         );
-        ry = p.constrain(
-          ry,
-          this.y + this.gutter + r,
+        let ry = p.random(
+          this.y + r + this.gutter,
           this.h + this.y - r - this.gutter
         );
+
+        if (this.bubbleData.length === 1) {
+          rx = this.x + this.w / 2;
+          ry = this.y + this.h / 2;
+        }
+
+        rx = p.constrain(rx, this.x + r, this.w + this.x - r);
+        ry = p.constrain(ry, this.y + r, this.h + this.y - r);
 
         let newBubble = new Bubble(
           rx,
           ry,
           r,
           item.percentage,
+          item.count,
           item.color,
           this.bubbleData[i].data
         );
@@ -302,6 +316,7 @@ export default p => {
 
           if (d < newBubble.r + this.gutter + b.r + this.gutter) {
             intersecting = true;
+
             break;
           }
         }
@@ -319,52 +334,89 @@ export default p => {
   //BUBBLE CLASS
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   class Bubble {
-    constructor(x, y, r, p, c, data) {
+    constructor(x, y, r, percent, count, c, data) {
       this.x = x;
       this.y = y;
       this.r = r;
-      this.rDisplayPercent = 0;
-      this.percentage = p;
+      this.percentage = percent;
+      this.count = count;
       this.color = c;
       this.data = data;
+
+      this.rDisplay = 0;
+      this.growthRate = this.r / p.random(75, 150);
+
       this.spawned = false;
     }
 
     run() {
+      this.update();
       this.render();
     }
 
-    update() {}
+    update() {
+      this.rDisplayPercent += p.random(0.03, 0.01);
+      this.rDisplayPercent = p.constrain(this.rDisplayPercent, 0, 1);
+    }
 
     render() {
+      let radius = this.rDisplay;
+      this.rDisplay += this.growthRate;
+      this.rDisplay = p.constrain(this.rDisplay, 0, this.r);
+      let a = p.map(this.rDisplay, 0, this.r, 0, 100);
       p.push();
       p.translate(this.x, this.y);
 
-      this.rDisplayPercent += 0.1;
-      this.rDisplayPercent = p.constrain(this.rDisplayPercent, 0, 1);
-      let radius = p.lerp(0, this.r, this.rDisplayPercent);
+      //22px addedhere to offset the translate of whole sketch
+      let active = p.dist(p.mouseX, p.mouseY, this.x, this.y + 22) <= this.r;
 
-      p.fill(this.color, 50);
-      p.noStroke();
-      p.ellipse(0, 0, radius * 2, radius * 2);
+      if (!active) {
+        p.fill(
+          p.hue(this.color),
+          p.saturation(this.color),
+          p.brightness(this.color),
+          a
+        );
+        p.noStroke();
+        p.ellipse(0, 0, radius * 2, radius * 2);
 
-      let word = `${this.data.toUpperCase()}`;
-      let percent = this.percentage;
-      percent < 1 ? (percent = "<1%") : (percent = `${percent}%`);
-      p.textFont("Helvetica", 100);
-      let textW = p.textWidth(word);
-      let fontSize = (100 * (this.r * 2 * 0.65)) / textW;
-      // fontSize = p.min(fontSize, this.r * 2 * 0.65);
-      fontSize = 12;
-      // fontSize = p.constrain(fontSize, 14, 100);
-      p.textFont("Helvetica", fontSize);
-      p.textAlign(p.CENTER, p.CENTER);
-      p.noStroke();
-      p.fill(100);
-      p.text(word, 0, 0);
-      fontSize = 10;
-      p.text(percent, 0, 18);
-      p.textFont("Helvetica", fontSize / 2);
+        let word = `${this.data.toUpperCase()}`;
+        let percent = this.percentage;
+        percent < 1 ? (percent = "<1%") : (percent = `${percent}%`);
+
+        p.textFont("Helvetica", 12);
+        p.textAlign(p.CENTER, p.CENTER);
+        p.noStroke();
+        p.fill(100, a);
+        p.text(word, 0, 0);
+        p.text(percent, 0, 10 * 1.5);
+      } else {
+        p.fill(
+          p.hue(this.color),
+          p.saturation(this.color),
+          p.brightness(this.color),
+          a
+        );
+        p.strokeWeight(2);
+        p.stroke(
+          p.hue(this.color),
+          p.saturation(this.color),
+          p.brightness(this.color),
+          a
+        );
+        p.noFill();
+        p.ellipse(0, 0, radius * 2, radius * 2);
+        p.stroke(100, a);
+
+        let word = `${this.count}`;
+        p.textFont("Helvetica", 12);
+        p.textAlign(p.CENTER, p.CENTER);
+        p.noStroke();
+        p.fill(100, a);
+        p.text(word, 0, 0);
+        p.textFont("Helvetica", 10);
+        p.text("REVIEWS", 0, 10 * 1.5);
+      }
 
       p.pop();
     }

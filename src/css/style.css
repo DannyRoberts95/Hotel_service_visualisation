@@ -1,6 +1,12 @@
-#toggleFilter {
-  position: fixed;
-  background-color: ;
-  border-radius: 3px;
-  border: 1px solid white;
+.rounded {
+  border-radius: 10px;
+}
+
+button {
+  border: none;
+}
+
+.zoom:hover {
+  transform: scale(1.5);
+  transition: transform 0.2s;
 }

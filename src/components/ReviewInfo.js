@@ -1,91 +1,111 @@
 import React from "react";
 import Subheading from "./Subheading.js";
+import Subheading2 from "./Subheading2.js";
+import Heading from "./Heading.js";
 
 class ReviewInfo extends React.Component {
   constructor(props) {
     super();
+    this.state = { selectedReview: null };
   }
 
   componentDidMount() {
     this.props.review
-      ? console.log(this.props.review)
+      ? this.setState({ selectedReview: this.props.review })
       : console.log("No review selected");
   }
 
   render() {
-    // console.log(this.props);
-
+    console.log(this.props);
     const review = this.props.review;
 
     return review ? (
       <div
-        className=""
-        uk-scrollspy="cls: uk-animation-fade; target: div; delay: 200; repeat: true"
+        className="uk-width-1-2 uk-height-large uk-panel"
+        uk-overflow-auto="true"
       >
-        <div className=" uk-light uk-background-secondary uk-padding-small uk-position-small uk-position-bottom-right uk-card uk-card-small uk-width-1-3@s uk-width-1-4@m uk-width-1-6@l">
-          <div className="uk-card-header">
-            <div className="uk-grid-small uk-flex-middle" uk-grid="true">
-              <div className="uk-width-expand ">
-                <Subheading content="Review Data" />
+        <Subheading content={`Review: ${review.entryID}`} />
+        <Subheading2 content={`Review Data`} />
 
-                <p className="uk-text-meta uk-flex-middle">
-                  Posted: {review.Review_Date}
-                </p>
-                <p className="uk-text-small uk-text-muted">
-                  <b>Comment:</b>
-                </p>
-                <p className="uk-text">{review.sentence}</p>
+        <p className="uk-text-meta">Posted:{review.Review_Date}</p>
+        <p className="uk-text-small uk-text">
+          <b>Comment:</b>
+        </p>
+        <p className="uk-text">{review.sentence}</p>
 
-                <table className="uk-table uk-table-small">
-                  <tbody className="uk-text-small uk-text-muted">
-                    <tr>
-                      <td className="uk-padding-remove-left">
-                        <b> Sentiment:</b>
-                      </td>
-                      <td>{review.Positive_Negative}</td>
-                    </tr>
+        <table className="uk-table uk-table-small">
+          <tbody className="uk-text-small uk-text">
+            <tr>
+              <td className="uk-padding-remove-left">
+                <b> Sentiment:</b>
+              </td>
+              <td>{review.Positive_Negative}</td>
+            </tr>
 
-                    <tr>
-                      <td className="uk-padding-remove-left">
-                        {" "}
-                        <b>Rating:</b>
-                      </td>
-                      <td>{review.Reviewer_Score}</td>
-                    </tr>
-                    <tr>
-                      <td className="uk-padding-remove-left">
-                        {" "}
-                        <b>Category:</b>
-                      </td>
-                      <td>{review.Category}</td>
-                    </tr>
-                    <tr>
-                      <td className="uk-padding-remove-left">
-                        <b>Room:</b>
-                      </td>
-                      <td>{review.roomType}</td>
-                    </tr>
-                    <tr>
-                      <td className="uk-padding-remove-left">
-                        <b> Group:</b>
-                      </td>
-                      <td>{review.type1}</td>
-                    </tr>
-                    <tr>
-                      <td className="uk-padding-remove-left">
-                        {" "}
-                        <b>Trip Type:</b>
-                      </td>
-                      <td>{review.type}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
+            <tr>
+              <td className="uk-padding-remove-left">
+                {" "}
+                <b>Rating:</b>
+              </td>
+              <td>{review.Reviewer_Score}</td>
+            </tr>
+            <tr>
+              <td className="uk-padding-remove-left">
+                {" "}
+                <b>Category:</b>
+              </td>
+              <td>{review.Category}</td>
+            </tr>
+            <tr>
+              <td className="uk-padding-remove-left">
+                <b>Room Type:</b>
+              </td>
+              <td>{review.roomType}</td>
+            </tr>
+            <tr>
+              <td className="uk-padding-remove-left">
+                <b> Group Type:</b>
+              </td>
+              <td>{review.type1}</td>
+            </tr>
+            <tr>
+              <td className="uk-padding-remove-left">
+                {" "}
+                <b>Trip Type:</b>
+              </td>
+              <td>{review.type}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <Subheading2 content={`Reviewer Data`} />
+        <table className="uk-table uk-table-small">
+          <tbody className="uk-text-small uk-text">
+            <tr>
+              <td className="uk-padding-remove-left">
+                <b> Reviewer Id:</b>
+              </td>
+              <td>{review.userID}</td>
+            </tr>
+
+            <tr>
+              <td className="uk-padding-remove-left">
+                <b> Reviewer Nationality:</b>
+              </td>
+              <td>{review.Reviewer_Nationality}</td>
+            </tr>
+            <tr>
+              <td className="uk-padding-remove-left">
+                <b> Reviewer No. of Reviews:</b>
+              </td>
+              <td>{review.Total_Number_of_Reviews_Reviewer_Has_Given}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    ) : null;
+    ) : (
+      <div className="uk-width-1-2 " />
+    );
   }
 }
 export default ReviewInfo;

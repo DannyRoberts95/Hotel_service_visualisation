@@ -1,14 +1,13 @@
 import React from "react";
-import Filter from "./Filter.js";
-import ReviewInfo from "./ReviewInfo.js";
-// import ReviewInfo2 from "./ReviewInf2.js";
-
-import * as d3 from "d3";
-
-// import data_import from "../data/test_data.csv";
-import data_import from "../data/hotel_data.csv";
-
 import P5Wrapper from "react-p5-wrapper";
+import * as d3 from "d3";
+import filter from "../assests/filter.png";
+import info from "../assests/info.png";
+
+import FilterModal from "./FilterModal.js";
+import DataInfoModal from "./DataInfoModal.js";
+
+import data_import from "../data/hotel_data.csv";
 
 import Bubble_Map_Plot from "../p5_code/Bubble_Map_Plot.js";
 
@@ -118,8 +117,6 @@ class SketchHolder extends React.Component {
   }
 
   render() {
-    console.log(this.state);
-
     const sketch_data = this.state.json_data
       .filter(
         //FILTER DATA BY SENTIMENT
@@ -169,37 +166,39 @@ class SketchHolder extends React.Component {
     return (
       <div>
         <button
-          id="toggleFilter"
-          className="uk-button uk-button-secondary uk-button-small uk-margin-medium-left uk-margin-medium-top"
+          class="zoom uk-padding-small uk-button uk-button-text uk-position-top-left "
           type="button"
-          uk-toggle="target: #offcanvas-usage"
+          uk-toggle="target: #modal-filter"
         >
-          Options
+          <img className="" src={filter} width="40px" />
         </button>
-        <div
-          id="offcanvas-usage"
-          uk-offcanvas="mode: push"
-          bg-close="true"
-          esc-close="true"
+        <button
+          class="zoom uk-padding-small uk-button uk-button-text uk-position-top-right"
+          type="button"
+          uk-toggle="target: #modal-info"
         >
-          <Filter
-            handleChange={this.handleChange}
-            sentimentPreference={this.state.sentimentPreference}
-            sentimentValues={this.state.sentimentValues}
-            categoryPreference={this.state.categoryPreference}
-            categoryValues={this.state.categoryValues}
-            roomTypePreference={this.state.roomTypePreference}
-            roomTypeValues={this.state.roomTypeValues}
-            tripTypePreference={this.state.tripTypePreference}
-            tripTypeValues={this.state.tripTypeValues}
-            tripType1Preference={this.state.tripType1Preference}
-            tripType1Values={this.state.tripType1Values}
-            earliestDate={this.state.earliestDate}
-            latestDate={this.state.latestDate}
-            reviewScoreMin={this.state.reviewScoreMin}
-            reviewScoreMax={this.state.reviewScoreMax}
-          />
-        </div>
+          <img src={info} width="40px" />
+        </button>
+
+        <FilterModal
+          handleChange={this.handleChange}
+          sentimentPreference={this.state.sentimentPreference}
+          sentimentValues={this.state.sentimentValues}
+          categoryPreference={this.state.categoryPreference}
+          categoryValues={this.state.categoryValues}
+          roomTypePreference={this.state.roomTypePreference}
+          roomTypeValues={this.state.roomTypeValues}
+          tripTypePreference={this.state.tripTypePreference}
+          tripTypeValues={this.state.tripTypeValues}
+          tripType1Preference={this.state.tripType1Preference}
+          tripType1Values={this.state.tripType1Values}
+          earliestDate={this.state.earliestDate}
+          latestDate={this.state.latestDate}
+          reviewScoreMin={this.state.reviewScoreMin}
+          reviewScoreMax={this.state.reviewScoreMax}
+        />
+
+        <DataInfoModal reviewList={sketch_data} />
 
         <P5Wrapper
           sketch={Bubble_Map_Plot}
@@ -211,20 +210,9 @@ class SketchHolder extends React.Component {
           tripTypeValues={this.state.tripTypeValues}
           tripType1Values={this.state.tripType1Values}
         />
-
-        <ReviewInfo review={this.state.selectedReview[0]} />
       </div>
     );
   }
-
-  //METHOD TO BE PASSED P5 SKETCH ALLOWING SELECTED REVIEWS TO BE RECIEVED BY REACT
-  // receiveId(id) {
-  //   //FIND AND STORE THE SELECTED REVIEW
-  //   const selectedReview = this.state.json_data.filter(
-  //     item => item.entryID === selectedReviewId
-  //   );
-  //   this.setState({ selectedReview });
-  // }
 
   handleChange(event) {
     const target = event.target;
